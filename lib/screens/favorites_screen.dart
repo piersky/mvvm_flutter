@@ -24,7 +24,7 @@ class FavoritesScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.all(8.0),
-            child: MoviesWidget(),
+            child: Text("CIAO"), //MoviesWidget(),
           );
         },
       ),

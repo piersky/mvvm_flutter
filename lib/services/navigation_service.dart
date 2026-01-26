@@ -27,13 +27,13 @@ class NavigationService {
     );
   }
 
-  void showSnackBar() {
+  void showSnackBar({required String message}) {
     final context = navigatorKey.currentContext!;
     ScaffoldMessenger.of(
       navigatorKey.currentContext!,
     ).hideCurrentMaterialBanner();
     ScaffoldMessenger.of(
       context,
-    ).showSnackBar(SnackBar(content: Text('This is a SnackBar')));
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 }

@@ -6,6 +6,7 @@ class ApiConstants {
 
   static const String baseUrl = 'https://api.themoviedb.org/3';
   static const String moviesEndpoint = '/movie/popular';
+  static const String genresEndpoint = '/genre/movie/list';
   static Map<String, String> get headers => {
     'Authorization': 'Bearer $bearerToken',
     'accept': 'application/json;',

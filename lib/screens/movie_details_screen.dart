@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mvv_managements/constants/app_constants.dart';
+import 'package:mvv_managements/models/movies_model.dart';
 import 'package:mvv_managements/widgets/cache_image.dart';
 import 'package:mvv_managements/widgets/movies/favorite_button.dart';
 import 'package:mvv_managements/widgets/movies/genres_widget.dart';
-import 'package:mvv_managements/widgets/movies/movie_widget.dart';
 
 class MovieDetailsScreen extends StatelessWidget {
-  const MovieDetailsScreen({super.key});
+  final MovieModel movie;
+
+  const MovieDetailsScreen({super.key, required this.movie});
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +18,17 @@ class MovieDetailsScreen extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            SizedBox(
-              height: size.height * 0.5,
-              width: double.infinity,
-              child: CachedImageWidget(imageUrl: AppConstants.defaultImageUrl),
+            Hero(
+              tag: 'movie_${movie.id}',
+              child: SizedBox(
+                height: size.height * 0.5,
+                width: double.infinity,
+                child: CachedImageWidget(
+                  imageUrl: movie.posterPath.isNotEmpty
+                      ? 'https://image.tmdb.org/t/p/w500/${movie.posterPath}'
+                      : AppConstants.defaultImageUrl,
+                ),
+              ),
             ),
             SingleChildScrollView(
               child: Column(
@@ -37,6 +46,13 @@ class MovieDetailsScreen extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                Text(
+                                  movie.title,
+                                  style: TextStyle(
+                                    fontSize: 24.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                                 const SizedBox(height: 25.0),
                                 const Text(
                                   'Genres',
@@ -46,7 +62,7 @@ class MovieDetailsScreen extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(height: 8.0),
-                                const Row(
+                                Row(
                                   children: [
                                     Icon(
                                       Icons.star,
@@ -55,12 +71,12 @@ class MovieDetailsScreen extends StatelessWidget {
                                     ),
                                     SizedBox(width: 5.0),
                                     Text(
-                                      '9/10',
+                                      '${movie.voteAverage.toStringAsFixed(1)}/10',
                                       style: TextStyle(fontSize: 16.0),
                                     ),
                                     Spacer(),
                                     Text(
-                                      "Release date",
+                                      movie.releaseDate,
                                       style: TextStyle(color: Colors.grey),
                                     ),
                                   ],
@@ -68,8 +84,8 @@ class MovieDetailsScreen extends StatelessWidget {
                                 const SizedBox(height: 10.0),
                                 GenresWidget(genres: AppConstants.genres),
                                 const SizedBox(height: 15.0),
-                                const Text(
-                                  'Overview',
+                                Text(
+                                  movie.overview,
                                   style: TextStyle(fontSize: 18.0),
                                   textAlign: TextAlign.justify,
                                 ),

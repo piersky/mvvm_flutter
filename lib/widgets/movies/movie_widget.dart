@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:mvv_managements/constants/app_constants.dart';
 import 'package:mvv_managements/constants/app_icons.dart';
-import 'package:mvv_managements/screens/favorites_screen.dart'
-    show FavoritesScreen;
+import 'package:mvv_managements/models/movies_model.dart';
+import 'package:mvv_managements/screens/favorites_screen.dart';
 import 'package:mvv_managements/screens/movie_details_screen.dart';
 import 'package:mvv_managements/services/init_getit.dart';
 import 'package:mvv_managements/services/navigation_service.dart';
 import 'package:mvv_managements/widgets/movies/favorite_button.dart';
-import 'package:mvv_managements/widgets/movies/genres_widget.dart';
 import '../cache_image.dart';
 
 class MoviesWidget extends StatelessWidget {
-  const MoviesWidget({super.key});
+  final MovieModel movie;
+
+  const MoviesWidget(this.movie, {super.key});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -22,7 +24,9 @@ class MoviesWidget extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(12.0),
           onTap: () {
-            getIt<NavigationService>().navigator(const MovieDetailsScreen());
+            getIt<NavigationService>().navigator(
+              MovieDetailsScreen(movie: movie),
+            );
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -31,10 +35,15 @@ class MoviesWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(12.0),
-                    child: CachedImageWidget(
-                      imageUrl: AppConstants.defaultImageUrl,
+                  Hero(
+                    tag: 'movie_${movie.id}',
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12.0),
+                      child: CachedImageWidget(
+                        imageUrl: movie.posterPath.isNotEmpty
+                            ? 'https://image.tmdb.org/t/p/w500/${movie.posterPath}'
+                            : AppConstants.defaultImageUrl,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -42,8 +51,8 @@ class MoviesWidget extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          "Movie Title",
+                        Text(
+                          movie.title.isNotEmpty ? movie.title : "Movie Title",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -54,11 +63,20 @@ class MoviesWidget extends StatelessWidget {
                           children: [
                             Icon(Icons.star, color: Colors.amber, size: 20),
                             SizedBox(width: 5),
-                            Text("8/10"),
+                            Text("${movie.voteAverage.toStringAsFixed(1)}/10"),
                           ],
                         ),
                         const SizedBox(height: 10),
-                        GenresWidget(genres: ['Action', 'Adventure', 'Sci-Fi']),
+                        // GenresWidget(
+                        //   genres:
+                        //       movie.genreIds
+                        //           ?.map(
+                        //             (id) =>
+                        //                 AppConstants.genresMap[id] ?? "Unknown",
+                        //           )
+                        //           .toList() ??
+                        //       [],
+                        // ),
                         const SizedBox(height: 10),
                         Row(
                           mainAxisSize: MainAxisSize.max,
