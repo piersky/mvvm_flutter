@@ -11,9 +11,11 @@ import 'package:mvv_managements/widgets/movies/genres_widget.dart';
 import '../cache_image.dart';
 
 class MoviesWidget extends StatelessWidget {
-  final MovieModel movie;
+  // final MovieModel movie;
 
-  const MoviesWidget(this.movie, {super.key});
+  const MoviesWidget(
+  // this.movie,
+  {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +27,7 @@ class MoviesWidget extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(12.0),
           onTap: () {
-            getIt<NavigationService>().navigator(
-              MovieDetailsScreen(movie: movie),
-            );
+            getIt<NavigationService>().navigator(MovieDetailsScreen());
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -36,15 +36,10 @@ class MoviesWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Hero(
-                    tag: 'movie_${movie.id}',
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12.0),
-                      child: CachedImageWidget(
-                        imageUrl: movie.posterPath.isNotEmpty
-                            ? 'https://image.tmdb.org/t/p/w500/${movie.posterPath}'
-                            : AppConstants.defaultImageUrl,
-                      ),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(12.0),
+                    child: CachedImageWidget(
+                      imageUrl: AppConstants.defaultImageUrl,
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -53,7 +48,7 @@ class MoviesWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          movie.title.isNotEmpty ? movie.title : "Movie Title",
+                          "Movie Title",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -64,11 +59,11 @@ class MoviesWidget extends StatelessWidget {
                           children: [
                             Icon(Icons.star, color: Colors.amber, size: 20),
                             SizedBox(width: 5),
-                            Text("${movie.voteAverage.toStringAsFixed(1)}/10"),
+                            Text("0.0/10"),
                           ],
                         ),
                         const SizedBox(height: 10),
-                        GenresListWidget(movie: movie),
+                        // GenresListWidget(movie: movie),
                         const SizedBox(height: 10),
                         Row(
                           mainAxisSize: MainAxisSize.max,
@@ -81,17 +76,11 @@ class MoviesWidget extends StatelessWidget {
                             ),
                             const SizedBox(width: 5),
                             Text(
-                              "Release Date ${movie.releaseDate}",
+                              "Release Date ",
                               style: TextStyle(color: Colors.grey),
                             ),
                             const Spacer(),
-                            FavoriteButton(
-                              onPressed: () {
-                                getIt<NavigationService>().navigator(
-                                  const FavoritesScreen(),
-                                );
-                              },
-                            ),
+                            // FavoriteButton(movie: movie),
                           ],
                         ),
                       ],

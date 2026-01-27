@@ -6,7 +6,7 @@ class GenreUtils {
   static List<MovieGenre> movieGenreNames({required List<int> genreIds}) {
     final moviesRepository = getIt<MoviesRepository>();
     moviesRepository.fetchGenres();
-    final genres = moviesRepository.cachedGenres;
+    final genres = []; //TODO: await moviesRepository.fetchGenres();
     List<MovieGenre> genreNames = [];
 
     // print('Mapping genre IDs: $genreIds');
