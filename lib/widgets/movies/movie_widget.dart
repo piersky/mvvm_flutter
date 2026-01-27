@@ -7,6 +7,7 @@ import 'package:mvv_managements/screens/movie_details_screen.dart';
 import 'package:mvv_managements/services/init_getit.dart';
 import 'package:mvv_managements/services/navigation_service.dart';
 import 'package:mvv_managements/widgets/movies/favorite_button.dart';
+import 'package:mvv_managements/widgets/movies/genres_widget.dart';
 import '../cache_image.dart';
 
 class MoviesWidget extends StatelessWidget {
@@ -67,16 +68,7 @@ class MoviesWidget extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 10),
-                        // GenresWidget(
-                        //   genres:
-                        //       movie.genreIds
-                        //           ?.map(
-                        //             (id) =>
-                        //                 AppConstants.genresMap[id] ?? "Unknown",
-                        //           )
-                        //           .toList() ??
-                        //       [],
-                        // ),
+                        GenresListWidget(movie: movie),
                         const SizedBox(height: 10),
                         Row(
                           mainAxisSize: MainAxisSize.max,
@@ -88,8 +80,8 @@ class MoviesWidget extends StatelessWidget {
                               color: Theme.of(context).colorScheme.secondary,
                             ),
                             const SizedBox(width: 5),
-                            const Text(
-                              "Release Date",
+                            Text(
+                              "Release Date ${movie.releaseDate}",
                               style: TextStyle(color: Colors.grey),
                             ),
                             const Spacer(),

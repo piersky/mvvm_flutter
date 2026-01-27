@@ -16,9 +16,6 @@ class ApiService {
     );
 
     if (response.statusCode == 200) {
-      if (kDebugMode) {
-        print("Movies fetched successfully: ${response.body}");
-      }
       final data = jsonDecode(response.body);
       return List.from(
         data['results'],
@@ -40,13 +37,14 @@ class ApiService {
     );
 
     if (response.statusCode == 200) {
-      if (kDebugMode) {
-        print("Genres fetched successfully: ${response.body}");
-      }
       final data = jsonDecode(response.body);
-      return List.from(
+      List<MovieGenre> genres = List.from(
         data['genres'],
       ).map((genre) => MovieGenre.fromJson(genre)).toList();
+
+      print('Fetched genres: $genres');
+
+      return genres;
     }
     return [];
   }
