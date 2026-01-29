@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:mvv_managements/constants/app_icons.dart';
+import 'package:mvv_managements/constants/theme_data.dart';
 import 'package:mvv_managements/screens/favorites_screen.dart';
 import 'package:mvv_managements/services/init_getit.dart';
 import 'package:mvv_managements/services/navigation_service.dart';
+import 'package:mvv_managements/view_models/theme_provider.dart';
 import 'package:mvv_managements/widgets/movies/movie_widget.dart';
+import 'package:provider/provider.dart';
 
 class MoviesScreen extends StatelessWidget {
   const MoviesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // final themeProvider = Provider.of<ThemeProvider>(context);
+    print("Built rebuild MoviesScreen");
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Popular Movies'),
@@ -20,15 +26,20 @@ class MoviesScreen extends StatelessWidget {
               getIt<NavigationService>().navigator(const FavoritesScreen());
             },
           ),
-          IconButton(
-            icon: const Icon(AppIcons.darkMode),
-            onPressed: () async {
-              // Dark mode action
-              // final List<MovieGenre> genres = await getIt<MoviesRepository>()
-              //     .fetchGenres();
-              // if (genres.isNotEmpty) {
-              //   print("GENRES $genres");
-              // }
+          Consumer(
+            builder: (context, ThemeProvider themeProvider, child) {
+              print("Built rebuild Theme IconButton");
+
+              return IconButton(
+                icon: Icon(
+                  themeProvider.themeMode == AppThemeData.darkTheme
+                      ? AppIcons.darkMode
+                      : AppIcons.lightMode,
+                ),
+                onPressed: () async {
+                  themeProvider.toggleTheme();
+                },
+              );
             },
           ),
         ],

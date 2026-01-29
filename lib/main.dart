@@ -5,6 +5,8 @@ import 'package:mvv_managements/constants/theme_data.dart';
 import 'package:mvv_managements/screens/movies_screen.dart';
 import 'package:mvv_managements/services/init_getit.dart';
 import 'package:mvv_managements/services/navigation_service.dart';
+import 'package:mvv_managements/view_models/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   setupLocator(); // Initialize GetIt service locator
@@ -23,12 +25,21 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: getIt<NavigationService>().navigatorKey,
-      debugShowCheckedModeBanner: false,
-      title: 'Movies App',
-      theme: AppThemeData.lightTheme,
-      home: MoviesScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider()),
+      ],
+      child: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, child) {
+          return MaterialApp(
+            navigatorKey: getIt<NavigationService>().navigatorKey,
+            debugShowCheckedModeBanner: false,
+            title: 'Movies App',
+            theme: themeProvider.themeMode,
+            home: MoviesScreen(),
+          );
+        },
+      ),
     );
   }
 }

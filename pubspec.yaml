@@ -39,6 +39,7 @@ dependencies:
   flutter_dotenv: ^6.0.0
   get_it: ^9.2.0
   cached_network_image: ^3.4.1
+  provider: ^6.1.5+1
 
 dev_dependencies:
   flutter_test:

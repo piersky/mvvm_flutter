@@ -6,6 +6,7 @@ class AppIcons {
   static const IconData favoriteOutlinedRounded =
       Icons.favorite_outline_rounded;
   static const IconData darkMode = Icons.dark_mode;
+  static const IconData lightMode = Icons.light_mode;
   static const IconData search = Icons.search;
   static const IconData settings = Icons.settings;
   static const IconData home = Icons.home;
