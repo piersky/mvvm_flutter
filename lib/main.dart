@@ -5,6 +5,7 @@ import 'package:mvv_managements/screens/movies_screen.dart';
 import 'package:mvv_managements/screens/splash_screen.dart';
 import 'package:mvv_managements/services/init_getit.dart';
 import 'package:mvv_managements/services/navigation_service.dart';
+import 'package:mvv_managements/view_models/favorites_provider.dart';
 import 'package:mvv_managements/view_models/movies_provider.dart';
 import 'package:mvv_managements/view_models/theme_provider.dart';
 import 'package:provider/provider.dart';
@@ -32,6 +33,9 @@ class MyApp extends StatelessWidget {
           create: (_) => ThemeProvider(), //..loadTheme(),
         ),
         ChangeNotifierProvider<MoviesProvider>(create: (_) => MoviesProvider()),
+        ChangeNotifierProvider<FavoritesProvider>(
+          create: (_) => FavoritesProvider(),
+        ),
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {

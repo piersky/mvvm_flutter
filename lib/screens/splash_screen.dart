@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mvv_managements/screens/movies_screen.dart';
 import 'package:mvv_managements/services/init_getit.dart';
 import 'package:mvv_managements/services/navigation_service.dart';
+import 'package:mvv_managements/view_models/favorites_provider.dart';
 import 'package:mvv_managements/view_models/movies_provider.dart';
 import 'package:mvv_managements/widgets/error_widget.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +12,11 @@ class SplashScreen extends StatelessWidget {
 
   Future<void> _loadInitialData(BuildContext context) async {
     await Future.microtask(() async {
+      if (!context.mounted) return;
+      await Provider.of<FavoritesProvider>(
+        context,
+        listen: false,
+      ).loadFavorites();
       if (!context.mounted) return;
       await Provider.of<MoviesProvider>(context, listen: false).getMovies();
     });

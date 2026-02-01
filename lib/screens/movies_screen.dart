@@ -4,6 +4,7 @@ import 'package:mvv_managements/constants/theme_data.dart';
 import 'package:mvv_managements/screens/favorites_screen.dart';
 import 'package:mvv_managements/services/init_getit.dart';
 import 'package:mvv_managements/services/navigation_service.dart';
+import 'package:mvv_managements/view_models/movies_provider.dart';
 import 'package:mvv_managements/view_models/theme_provider.dart';
 import 'package:mvv_managements/widgets/movies/movie_widget.dart';
 import 'package:provider/provider.dart';
@@ -44,12 +45,32 @@ class MoviesScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: ListView.builder(
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: MoviesWidget(),
+      body: Consumer<MoviesProvider>(
+        builder: (context, MoviesProvider moviesProvider, child) {
+          if (moviesProvider.isLoading && moviesProvider.moviesList.isEmpty) {
+            return const Center(child: CircularProgressIndicator.adaptive());
+          } else if (moviesProvider.fetchMoviesError.isNotEmpty) {
+            return Center(child: Text(moviesProvider.fetchMoviesError));
+          }
+          return NotificationListener<ScrollNotification>(
+            onNotification: (scrollInfo) {
+              if (scrollInfo.metrics.pixels ==
+                      scrollInfo.metrics.maxScrollExtent &&
+                  !moviesProvider.isLoading) {
+                moviesProvider.getMovies();
+                return true;
+              }
+              return false;
+            },
+            child: ListView.builder(
+              itemCount: moviesProvider.moviesList.length,
+              itemBuilder: (context, index) {
+                return ChangeNotifierProvider.value(
+                  value: moviesProvider.moviesList[index],
+                  child: const MoviesWidget(),
+                );
+              },
+            ),
           );
         },
       ),

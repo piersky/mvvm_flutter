@@ -30,6 +30,7 @@ class MoviesProvider with ChangeNotifier {
       if (_genresList.isEmpty) {
         _genresList = await _moviesRepository.fetchGenres();
       }
+
       List<MovieModel> movies = await _moviesRepository.fetchMovies(
         page: _currentPage,
       );
