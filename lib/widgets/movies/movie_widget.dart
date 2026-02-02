@@ -58,7 +58,7 @@ class MoviesWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          moviesProvider.title ?? '',
+                          moviesProvider.title,
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,

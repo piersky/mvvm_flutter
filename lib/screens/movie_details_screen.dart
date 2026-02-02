@@ -22,7 +22,7 @@ class MovieDetailsScreen extends StatelessWidget {
             Hero(
               tag: movieModelProvider.id,
               child: SizedBox(
-                height: size.height * 0.5,
+                height: size.height * 0.4,
                 width: double.infinity,
                 child: CachedImageWidget(
                   imageUrl:
